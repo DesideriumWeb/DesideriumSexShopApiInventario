@@ -7,8 +7,8 @@ const {
   deleteCategory,
   deleteCategoriesBulk
 } = require("../controllers/categoryController");
-const verifyToken = require("../middleware/validateToken");
 
+const verifyToken = require("../middleware/validateToken");
 const router = express.Router();
 
 /**
@@ -32,12 +32,20 @@ const router = express.Router();
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - name
+ *               - description
+ *               - state
  *             properties:
- *               nombre:
+ *               name:
  *                 type: string
+ *               description:
+ *                 type: string
+ *               state:
+ *                 type: boolean
  *     responses:
  *       201:
- *         description: Categoría creada exitosamente
+ *         description: Categoría creada correctamente
  */
 router.post('/categories', verifyToken, saveCategory);
 
@@ -66,13 +74,13 @@ router.get('/categories', verifyToken, getAllCategories);
  *     parameters:
  *       - in: path
  *         name: id
+ *         required: true
  *         schema:
  *           type: string
- *         required: true
  *         description: ID de la categoría
  *     responses:
  *       200:
- *         description: Datos de la categoría
+ *         description: Categoría encontrada
  */
 router.get('/categories/:id', verifyToken, getCategoryById);
 
@@ -80,16 +88,16 @@ router.get('/categories/:id', verifyToken, getCategoryById);
  * @swagger
  * /api/categories/{id}:
  *   put:
- *     summary: Actualizar una categoría existente
+ *     summary: Actualizar una categoría por ID
  *     tags: [Categorías]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
+ *         required: true
  *         schema:
  *           type: string
- *         required: true
  *         description: ID de la categoría
  *     requestBody:
  *       required: true
@@ -98,11 +106,15 @@ router.get('/categories/:id', verifyToken, getCategoryById);
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
+ *               name:
  *                 type: string
+ *               description:
+ *                 type: string
+ *               state:
+ *                 type: boolean
  *     responses:
  *       200:
- *         description: Categoría actualizada exitosamente
+ *         description: Categoría actualizada correctamente
  */
 router.put('/categories/:id', verifyToken, updateCategory);
 
@@ -110,20 +122,20 @@ router.put('/categories/:id', verifyToken, updateCategory);
  * @swagger
  * /api/categories/{id}:
  *   delete:
- *     summary: Eliminar una categoría
+ *     summary: Eliminar una categoría por ID
  *     tags: [Categorías]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
+ *         required: true
  *         schema:
  *           type: string
- *         required: true
  *         description: ID de la categoría
  *     responses:
  *       200:
- *         description: Categoría eliminada exitosamente
+ *         description: Categoría eliminada correctamente
  */
 router.delete('/categories/:id', verifyToken, deleteCategory);
 
@@ -131,7 +143,7 @@ router.delete('/categories/:id', verifyToken, deleteCategory);
  * @swagger
  * /api/categories/delete-bulk:
  *   post:
- *     summary: Eliminar múltiples categorías
+ *     summary: Eliminar múltiples categorías por IDs
  *     tags: [Categorías]
  *     security:
  *       - bearerAuth: []

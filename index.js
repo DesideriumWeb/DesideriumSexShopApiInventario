@@ -21,11 +21,11 @@ app.get('/', (req, res) => {
 });
 
 // Productos nuevo
-//app.use("/api", productRoute);
+app.use("/api", productRoute);
 // Category
 app.use("/api", categoryRoute);
 // Login 
-//app.use("/api", userLogin);
+app.use("/api", userLogin);
 
 
 app.use(cors({ origin: '*' }));
